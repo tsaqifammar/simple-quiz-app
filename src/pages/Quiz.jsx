@@ -15,8 +15,8 @@ function Quiz() {
 
   // quiz information
   const [questionNum, setQuestionNum] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(30);
+  const userAnswers = useRef([]);
   const intervalId = useRef(null);
 
   useEffect(() => {
@@ -52,8 +52,9 @@ function Quiz() {
   function calculateResume() {
     let correct = 0;
     let wrong = 0;
-    for (let i = 0; i < userAnswers.length; i++) {
-      if (userAnswers[i] === questions[i].correct_answer) {
+    for (let i = 0; i < userAnswers.current.length; i++) {
+      console.log(i);
+      if (userAnswers.current[i] === questions[i].correct_answer) {
         correct += 1;
       } else {
         wrong += 1;
@@ -67,7 +68,8 @@ function Quiz() {
   }
 
   function answer(a) {
-    setUserAnswers((prev) => [...prev, a]);
+    userAnswers.current = [...userAnswers.current, a];
+    console.log(userAnswers.current);
     if (questionNum === questions.length - 1) {
       calculateResume();
     } else {
@@ -82,17 +84,20 @@ function Quiz() {
       ) : error ? (
         <h1>An error happened. Try restarting the page.</h1>
       ) : (
-        <div>
+        <div className='quiz'>
           <div className="quiz__header">
             <span>{`${questionNum + 1}/${questions.length}`}</span>
-            <span>{timer}</span>
+            <span>&#128337; {timer}</span>
           </div>
+          <hr />
           <h3>{formatQuestion(questions[questionNum].question)}</h3>
-          {questions[questionNum].answers.map((a) => (
-            <button key={a} onClick={() => answer(a)}>
-              {a}
-            </button>
-          ))}
+          <div className='quiz__answers'>
+            {questions[questionNum].answers.map((a) => (
+              <button key={a} onClick={() => answer(a)}>
+                {a}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </>

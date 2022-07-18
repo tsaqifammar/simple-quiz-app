@@ -22,12 +22,14 @@ function Home() {
   };
 
   return (
-    <>
+    <div className='home'>
       <h1>Welcome to Quiz App!</h1>
-      <button type="button" onClick={() => navigate('/quiz')}>
-        Start Quiz
-      </button>
-      <button type="button" onClick={logout} >Logout</button>
+      <div className='home__options'>
+        <button type="button" onClick={() => navigate('/quiz')}>
+          Start Quiz
+        </button>
+        <button type="button" onClick={logout} >Logout</button>
+      </div>
       {lastAttempt && (
         <div>
           <h2>Last attempt:</h2>
@@ -37,7 +39,7 @@ function Home() {
           <p>Total questions: {lastAttempt.total}</p>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

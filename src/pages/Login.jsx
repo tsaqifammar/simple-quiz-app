@@ -32,13 +32,17 @@ function Login() {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <h1>Login</h1>
-      <label>Username</label>
-      <input type="text" name="username" value={formData.username} onChange={onChange} />
-      <label>Password</label>
-      <input type="password" name="password" value={formData.password} onChange={onChange} />
-      {formError && <span>{formError}</span>}
+    <form className='form' onSubmit={onSubmit}>
+      <h2>Login</h2>
+      <div className="form__input">
+        <label>Username</label>
+        <input type="text" name="username" value={formData.username} onChange={onChange} />
+      </div>
+      <div className="form__input">
+        <label>Password</label>
+        <input type="password" name="password" value={formData.password} onChange={onChange} />
+      </div>
+      {formError && <span className="form__error">{formError}</span>}
       <button type="submit">Login</button>
     </form>
   );
