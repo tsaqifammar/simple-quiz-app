@@ -46,7 +46,10 @@ function Quiz() {
         wrong += 1;
       }
     }
-    localStorage.setItem('resume', JSON.stringify({ correct, wrong }));
+    localStorage.setItem(
+      'resume',
+      JSON.stringify({ correct, wrong, total: questions.length })
+    );
   }
 
   function answer(a) {
@@ -72,8 +75,8 @@ function Quiz() {
             <span>04:02</span>
           </div>
           <h3>{formatQuestion(questions[questionNum].question)}</h3>
-          {questions[questionNum].answers.map((a, idx) => (
-            <button key={idx} onClick={() => answer(a)}>
+          {questions[questionNum].answers.map(a => (
+            <button key={a} onClick={() => answer(a)}>
               {a}
             </button>
           ))}
