@@ -9,8 +9,19 @@ function Home() {
     if (!isLoggedIn) navigate('/login');
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem('isLoggedIn');
+    navigate('/login');
+  };
+
   return (
-    <div>Selamat datang di Quiz App!</div>
+    <>
+      <h1>Welcome to Quiz App!</h1>
+      <button type="button" onClick={() => navigate('/quiz')}>
+        Start Quiz
+      </button>
+      <button type="button" onClick={logout} >Logout</button>
+    </>
   );
 }
 
