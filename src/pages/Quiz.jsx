@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import shuffle from '../utils/shuffle';
@@ -16,6 +16,8 @@ function Quiz() {
   // quiz information
   const [questionNum, setQuestionNum] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [timer, setTimer] = useState(20);
+  const intervalId = useRef(null);
 
   useEffect(() => {
     async function getQuestions() {
@@ -26,20 +28,31 @@ function Quiz() {
           ...q,
           answers: shuffle([q.correct_answer, ...q.incorrect_answers]),
         }));
-        console.log(data);
         setQuestions(data);
+        intervalId.current = setInterval(
+          () => setTimer((prev) => prev - 1),
+          1000
+        );
       } catch (error) {
         setError(true);
       }
       setIsLoading(false);
     }
     getQuestions();
+
+    return () => {
+      if (intervalId) clearInterval(intervalId.current);
+    };
   }, []);
+
+  useEffect(() => {
+    if (timer === -1) calculateResume();
+  }, [timer]);
 
   function calculateResume() {
     let correct = 0;
     let wrong = 0;
-    for (let i = 0; i < questions.length; i++) {
+    for (let i = 0; i < userAnswers.length; i++) {
       if (userAnswers[i] === questions[i].correct_answer) {
         correct += 1;
       } else {
@@ -50,13 +63,13 @@ function Quiz() {
       'resume',
       JSON.stringify({ correct, wrong, total: questions.length })
     );
+    navigate('/resume');
   }
 
   function answer(a) {
     setUserAnswers((prev) => [...prev, a]);
     if (questionNum === questions.length - 1) {
       calculateResume();
-      navigate('/resume');
     } else {
       setQuestionNum((prev) => prev + 1);
     }
@@ -72,10 +85,10 @@ function Quiz() {
         <div>
           <div className="quiz__header">
             <span>{`${questionNum + 1}/${questions.length}`}</span>
-            <span>04:02</span>
+            <span>{timer}</span>
           </div>
           <h3>{formatQuestion(questions[questionNum].question)}</h3>
-          {questions[questionNum].answers.map(a => (
+          {questions[questionNum].answers.map((a) => (
             <button key={a} onClick={() => answer(a)}>
               {a}
             </button>
