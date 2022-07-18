@@ -51,6 +51,14 @@ a:focus-visible, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+footer {
+  font-size: small;
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
