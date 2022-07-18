@@ -6,3 +6,4 @@ function decodeEntity(inputStr) {
 }
 
 export const formatQuestion = (q) => decodeEntity(q);
+export const formatAnswer = (a) => decodeEntity(a);

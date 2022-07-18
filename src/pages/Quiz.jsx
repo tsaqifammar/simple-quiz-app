@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import shuffle from '../utils/shuffle';
-import { formatQuestion } from '../utils/format';
+import { formatAnswer, formatQuestion } from '../utils/format';
 
 const QUIZ_API_URL = 'https://opentdb.com/api.php?amount=10&difficulty=easy';
 
@@ -94,7 +94,7 @@ function Quiz() {
           <div className='quiz__answers'>
             {questions[questionNum].answers.map((a) => (
               <button key={a} onClick={() => answer(a)}>
-                {a}
+                {formatAnswer(a)}
               </button>
             ))}
           </div>
