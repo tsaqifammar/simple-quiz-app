@@ -5,6 +5,7 @@ function Home() {
   const navigate = useNavigate();
 
   const [lastAttempt, setLastAttempt] = useState(null);
+  const [isOnGoing, setIsOnGoing] = useState(false);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -13,6 +14,9 @@ function Home() {
     } else {
       const resume = localStorage.getItem('resume');
       if (resume) setLastAttempt(JSON.parse(resume));
+
+      const onGoingAttempt = localStorage.getItem('quiz');
+      if (onGoingAttempt) setIsOnGoing(true);
     }
   }, []);
 
@@ -26,9 +30,9 @@ function Home() {
       <h1>Welcome to Quiz App!</h1>
       <div className='home__options'>
         <button type="button" onClick={() => navigate('/quiz')}>
-          Start Quiz
+          {isOnGoing ? 'Continue Attempt' : 'Start Quiz'}
         </button>
-        <button type="button" onClick={logout} >Logout</button>
+        <button type="button" onClick={logout}>Logout</button>
       </div>
       {lastAttempt && (
         <div>
