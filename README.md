@@ -8,6 +8,11 @@ To log in:
 * username: `test`
 * password: `test123`
 
+## Features
+
+* Various random questions from https://opentdb.com/.
+* Continue previous unfinished attempt, if browser/tab was closed.
+
 ## Get Started
 
 To run locally, clone this repo and do the following:
